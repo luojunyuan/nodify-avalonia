@@ -5,6 +5,7 @@
 > - Breaking Changes:
 > - Features:
 > - Bugfixes:
+>	- Fixed ItemContainer.BorderBrush and ItemContainer.SelectedBrush not reacting to theme changes
 
 #### **Version 6.5.0**
 
