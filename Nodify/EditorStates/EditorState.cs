@@ -50,9 +50,9 @@ namespace Nodify
 
         /// <summary>Pushes a new state into the stack.</summary>
         /// <param name="newState">The new state.</param>
-        public virtual void PushState(EditorState newState) => Editor.PushState(newState);
+        //public virtual void PushState(EditorState newState) => Editor.PushState(newState);
 
-        /// <summary>Pops the current state from the stack.</summary>
-        public virtual void PopState() => Editor.PopState();
+        ///// <summary>Pops the current state from the stack.</summary>
+        //public virtual void PopState() => Editor.PopState();
     }
 }

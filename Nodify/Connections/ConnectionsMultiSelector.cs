@@ -57,13 +57,13 @@ namespace Nodify
             Editor = this.GetParentOfType<NodifyEditor>() ?? throw new NotSupportedException($"{nameof(ConnectionsMultiSelector)} cannot be used outside the {nameof(NodifyEditor)}");
         }
 
-        protected override DependencyObject GetContainerForItemOverride()
-        {
-            return new ConnectionContainer(this);
-        }
+        //protected override DependencyObject GetContainerForItemOverride()
+        //{
+        //    return new ConnectionContainer(this);
+        //}
 
-        protected override bool IsItemItsOwnContainerOverride(object item)
-            => item is ConnectionContainer;
+        //protected override bool IsItemItsOwnContainerOverride(object item)
+        //    => item is ConnectionContainer;
 
         private void OnSelectedItemsSourceChanged(IList oldValue, IList newValue)
         {
