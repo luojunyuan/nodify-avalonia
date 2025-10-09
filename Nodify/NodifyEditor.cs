@@ -19,10 +19,10 @@ namespace Nodify
     /// </summary>
     [TemplatePart(Name = ElementItemsHost, Type = typeof(Panel))]
     [TemplatePart(Name = ElementConnectionsHost, Type = typeof(FrameworkElement))]
-    [StyleTypedProperty(Property = nameof(ItemContainerStyle), StyleTargetType = typeof(ItemContainer))]
-    [StyleTypedProperty(Property = nameof(DecoratorContainerStyle), StyleTargetType = typeof(DecoratorContainer))]
+    //[StyleTypedProperty(Property = nameof(ItemContainerStyle), StyleTargetType = typeof(ItemContainer))]
+    //[StyleTypedProperty(Property = nameof(DecoratorContainerStyle), StyleTargetType = typeof(DecoratorContainer))]
     [StyleTypedProperty(Property = nameof(SelectionRectangleStyle), StyleTargetType = typeof(Rectangle))]
-    [StyleTypedProperty(Property = nameof(CuttingLineStyle), StyleTargetType = typeof(CuttingLine))]
+    //[StyleTypedProperty(Property = nameof(CuttingLineStyle), StyleTargetType = typeof(CuttingLine))]
     [ContentProperty(nameof(Decorators))]
     [DefaultProperty(nameof(Decorators))]
     public partial class NodifyEditor : MultiSelector
@@ -136,7 +136,7 @@ namespace Nodify
         protected void OnViewportUpdated()
         {
             UpdateScrollbars();
-            UpdatePushedArea();
+            //UpdatePushedArea();
             RaiseEvent(new RoutedEventArgs(ViewportUpdatedEvent, this));
         }
 
@@ -832,49 +832,49 @@ namespace Nodify
         /// </summary>
         protected internal UIElement ConnectionsHost { get; private set; } = default!;
 
-        private IDraggingStrategy? _draggingStrategy;
+        //private IDraggingStrategy? _draggingStrategy;
         private DispatcherTimer? _autoPanningTimer;
 
         /// <summary>
         /// Gets a list of <see cref="ItemContainer"/>s that are selected.
         /// </summary>
         /// <remarks>Cache the result before using it to avoid extra allocations.</remarks>
-        protected internal IReadOnlyList<ItemContainer> SelectedContainers
-        {
-            get
-            {
-                IList selectedItems = base.SelectedItems;
-                var selectedContainers = new List<ItemContainer>(selectedItems.Count);
+        //protected internal IReadOnlyList<ItemContainer> SelectedContainers
+        //{
+        //    get
+        //    {
+        //        IList selectedItems = base.SelectedItems;
+        //        var selectedContainers = new List<ItemContainer>(selectedItems.Count);
 
-                for (var i = 0; i < selectedItems.Count; i++)
-                {
-                    var container = (ItemContainer)ItemContainerGenerator.ContainerFromItem(selectedItems[i]);
-                    selectedContainers.Add(container);
-                }
+        //        for (var i = 0; i < selectedItems.Count; i++)
+        //        {
+        //            var container = (ItemContainer)ItemContainerGenerator.ContainerFromItem(selectedItems[i]);
+        //            selectedContainers.Add(container);
+        //        }
 
-                return selectedContainers;
-            }
-        }
+        //        return selectedContainers;
+        //    }
+        //}
 
         /// <summary>
         /// Gets a list of all <see cref="ItemContainer"/>s.
         /// </summary>
         /// <remarks>Cache the result before using it to avoid extra allocations.</remarks>
-        protected internal IReadOnlyCollection<ItemContainer> ItemContainers
-        {
-            get
-            {
-                ItemCollection items = Items;
-                var containers = new List<ItemContainer>(items.Count);
+        //protected internal IReadOnlyCollection<ItemContainer> ItemContainers
+        //{
+        //    get
+        //    {
+        //        ItemCollection items = Items;
+        //        var containers = new List<ItemContainer>(items.Count);
 
-                for (var i = 0; i < items.Count; i++)
-                {
-                    containers.Add((ItemContainer)ItemContainerGenerator.ContainerFromIndex(i));
-                }
+        //        for (var i = 0; i < items.Count; i++)
+        //        {
+        //            containers.Add((ItemContainer)ItemContainerGenerator.ContainerFromIndex(i));
+        //        }
 
-                return containers;
-            }
-        }
+        //        return containers;
+        //    }
+        //}
 
         #endregion
 
@@ -885,7 +885,7 @@ namespace Nodify
             DefaultStyleKeyProperty.OverrideMetadata(typeof(NodifyEditor), new FrameworkPropertyMetadata(typeof(NodifyEditor)));
             FocusableProperty.OverrideMetadata(typeof(NodifyEditor), new FrameworkPropertyMetadata(BoxValue.True));
 
-            EditorCommands.Register(typeof(NodifyEditor));
+            //EditorCommands.Register(typeof(NodifyEditor));
         }
 
         /// <summary>
@@ -893,15 +893,15 @@ namespace Nodify
         /// </summary>
         public NodifyEditor()
         {
-            AddHandler(Connector.DisconnectEvent, new ConnectorEventHandler(OnConnectorDisconnected));
-            AddHandler(Connector.PendingConnectionStartedEvent, new PendingConnectionEventHandler(OnConnectionStarted));
-            AddHandler(Connector.PendingConnectionCompletedEvent, new PendingConnectionEventHandler(OnConnectionCompleted));
+            //AddHandler(Connector.DisconnectEvent, new ConnectorEventHandler(OnConnectorDisconnected));
+            //AddHandler(Connector.PendingConnectionStartedEvent, new PendingConnectionEventHandler(OnConnectionStarted));
+            //AddHandler(Connector.PendingConnectionCompletedEvent, new PendingConnectionEventHandler(OnConnectionCompleted));
 
-            AddHandler(BaseConnection.DisconnectEvent, new ConnectionEventHandler(OnRemoveConnection));
+            //AddHandler(BaseConnection.DisconnectEvent, new ConnectionEventHandler(OnRemoveConnection));
 
-            AddHandler(ItemContainer.DragStartedEvent, new DragStartedEventHandler(OnItemsDragStarted));
-            AddHandler(ItemContainer.DragCompletedEvent, new DragCompletedEventHandler(OnItemsDragCompleted));
-            AddHandler(ItemContainer.DragDeltaEvent, new DragDeltaEventHandler(OnItemsDragDelta));
+            //AddHandler(ItemContainer.DragStartedEvent, new DragStartedEventHandler(OnItemsDragStarted));
+            //AddHandler(ItemContainer.DragCompletedEvent, new DragCompletedEventHandler(OnItemsDragCompleted));
+            //AddHandler(ItemContainer.DragDeltaEvent, new DragDeltaEventHandler(OnItemsDragDelta));
 
             var transform = new TransformGroup();
             transform.Children.Add(ScaleTransform);
@@ -926,15 +926,15 @@ namespace Nodify
         }
 
         /// <inheritdoc />
-        protected override DependencyObject GetContainerForItemOverride()
-            => new ItemContainer(this)
-            {
-                RenderTransform = new TranslateTransform()
-            };
+        //protected override DependencyObject GetContainerForItemOverride()
+        //    => new ItemContainer(this)
+        //    {
+        //        RenderTransform = new TranslateTransform()
+        //    };
 
-        /// <inheritdoc />
-        protected override bool IsItemItsOwnContainerOverride(object item)
-            => item is ItemContainer;
+        ///// <inheritdoc />
+        //protected override bool IsItemItsOwnContainerOverride(object item)
+        //    => item is ItemContainer;
 
         #endregion
 
@@ -1248,22 +1248,22 @@ namespace Nodify
             => PopAllStates();
 
         /// <inheritdoc />
-        protected override void OnMouseWheel(MouseWheelEventArgs e)
-        {
-            State.HandleMouseWheel(e);
+        //protected override void OnMouseWheel(MouseWheelEventArgs e)
+        //{
+        //    State.HandleMouseWheel(e);
 
-            if (!e.Handled && EditorGestures.Mappings.Editor.ZoomModifierKey == Keyboard.Modifiers)
-            {
-                double zoom = Math.Pow(2.0, e.Delta / 3.0 / Mouse.MouseWheelDeltaForOneLine);
-                ZoomAtPosition(zoom, e.GetPosition(ItemsHost));
+        //    if (!e.Handled && EditorGestures.Mappings.Editor.ZoomModifierKey == Keyboard.Modifiers)
+        //    {
+        //        double zoom = Math.Pow(2.0, e.Delta / 3.0 / Mouse.MouseWheelDeltaForOneLine);
+        //        ZoomAtPosition(zoom, e.GetPosition(ItemsHost));
 
-                // Handle it for nested editors
-                if (e.Source is NodifyEditor)
-                {
-                    e.Handled = true;
-                }
-            }
-        }
+        //        // Handle it for nested editors
+        //        if (e.Source is NodifyEditor)
+        //        {
+        //            e.Handled = true;
+        //        }
+        //    }
+        //}
 
         protected override void OnKeyUp(KeyEventArgs e)
             => State.HandleKeyUp(e);
@@ -1368,72 +1368,72 @@ namespace Nodify
 
         #region Selection
 
-        internal void ApplyPreviewingSelection()
-        {
-            ItemCollection items = Items;
-            IList selected = base.SelectedItems;
+        //internal void ApplyPreviewingSelection()
+        //{
+        //    ItemCollection items = Items;
+        //    IList selected = base.SelectedItems;
 
-            IsSelecting = true;
-            BeginUpdateSelectedItems();
-            for (var i = 0; i < items.Count; i++)
-            {
-                var container = (ItemContainer)ItemContainerGenerator.ContainerFromIndex(i);
-                if (container.IsPreviewingSelection == true && container.IsSelectable)
-                {
-                    selected.Add(items[i]);
-                }
-                else if (container.IsPreviewingSelection == false)
-                {
-                    selected.Remove(items[i]);
-                }
-                container.IsPreviewingSelection = null;
-            }
-            EndUpdateSelectedItems();
-            IsSelecting = false;
-        }
+        //    IsSelecting = true;
+        //    BeginUpdateSelectedItems();
+        //    for (var i = 0; i < items.Count; i++)
+        //    {
+        //        var container = (ItemContainer)ItemContainerGenerator.ContainerFromIndex(i);
+        //        if (container.IsPreviewingSelection == true && container.IsSelectable)
+        //        {
+        //            selected.Add(items[i]);
+        //        }
+        //        else if (container.IsPreviewingSelection == false)
+        //        {
+        //            selected.Remove(items[i]);
+        //        }
+        //        container.IsPreviewingSelection = null;
+        //    }
+        //    EndUpdateSelectedItems();
+        //    IsSelecting = false;
+        //}
 
-        internal void ClearPreviewingSelection()
-        {
-            ItemCollection items = Items;
-            for (var i = 0; i < items.Count; i++)
-            {
-                var container = (ItemContainer)ItemContainerGenerator.ContainerFromIndex(i);
-                container.IsPreviewingSelection = null;
-            }
-        }
+        //internal void ClearPreviewingSelection()
+        //{
+        //    ItemCollection items = Items;
+        //    for (var i = 0; i < items.Count; i++)
+        //    {
+        //        var container = (ItemContainer)ItemContainerGenerator.ContainerFromIndex(i);
+        //        container.IsPreviewingSelection = null;
+        //    }
+        //}
 
         /// <summary>
         /// Inverts the <see cref="ItemContainer"/>s selection in the specified <paramref name="area"/>.
         /// </summary>
         /// <param name="area">The area to look for <see cref="ItemContainer"/>s.</param>
         /// <param name="fit">True to check if the <paramref name="area"/> contains the <see cref="ItemContainer"/>. <br />False to check if <paramref name="area"/> intersects the <see cref="ItemContainer"/>.</param>
-        public void InvertSelection(Rect area, bool fit = false)
-        {
-            ItemCollection items = Items;
-            IList selected = base.SelectedItems;
+        //public void InvertSelection(Rect area, bool fit = false)
+        //{
+        //    ItemCollection items = Items;
+        //    IList selected = base.SelectedItems;
 
-            IsSelecting = true;
-            BeginUpdateSelectedItems();
-            for (var i = 0; i < items.Count; i++)
-            {
-                var container = (ItemContainer)ItemContainerGenerator.ContainerFromIndex(i);
+        //    IsSelecting = true;
+        //    BeginUpdateSelectedItems();
+        //    for (var i = 0; i < items.Count; i++)
+        //    {
+        //        var container = (ItemContainer)ItemContainerGenerator.ContainerFromIndex(i);
 
-                if (container.IsSelectableInArea(area, fit))
-                {
-                    object? item = items[i];
-                    if (container.IsSelected)
-                    {
-                        selected.Remove(item);
-                    }
-                    else
-                    {
-                        selected.Add(item);
-                    }
-                }
-            }
-            EndUpdateSelectedItems();
-            IsSelecting = false;
-        }
+        //        if (container.IsSelectableInArea(area, fit))
+        //        {
+        //            object? item = items[i];
+        //            if (container.IsSelected)
+        //            {
+        //                selected.Remove(item);
+        //            }
+        //            else
+        //            {
+        //                selected.Add(item);
+        //            }
+        //        }
+        //    }
+        //    EndUpdateSelectedItems();
+        //    IsSelecting = false;
+        //}
 
         /// <summary>
         /// Selects the <see cref="ItemContainer"/>s in the specified <paramref name="area"/>.
@@ -1441,52 +1441,52 @@ namespace Nodify
         /// <param name="area">The area to look for <see cref="ItemContainer"/>s.</param>
         /// <param name="append">If true, it will add to the existing selection.</param>
         /// <param name="fit">True to check if the <paramref name="area"/> contains the <see cref="ItemContainer"/>. <br />False to check if <paramref name="area"/> intersects the <see cref="ItemContainer"/>.</param>
-        public void SelectArea(Rect area, bool append = false, bool fit = false)
-        {
-            if (!append)
-            {
-                UnselectAll();
-            }
+        //public void SelectArea(Rect area, bool append = false, bool fit = false)
+        //{
+        //    if (!append)
+        //    {
+        //        UnselectAll();
+        //    }
 
-            ItemCollection items = Items;
-            IList selected = base.SelectedItems;
+        //    ItemCollection items = Items;
+        //    IList selected = base.SelectedItems;
 
-            IsSelecting = true;
-            BeginUpdateSelectedItems();
-            for (var i = 0; i < items.Count; i++)
-            {
-                var container = (ItemContainer)ItemContainerGenerator.ContainerFromIndex(i);
-                if (container.IsSelectableInArea(area, fit))
-                {
-                    selected.Add(items[i]);
-                }
-            }
-            EndUpdateSelectedItems();
-            IsSelecting = false;
-        }
+        //    IsSelecting = true;
+        //    BeginUpdateSelectedItems();
+        //    for (var i = 0; i < items.Count; i++)
+        //    {
+        //        var container = (ItemContainer)ItemContainerGenerator.ContainerFromIndex(i);
+        //        if (container.IsSelectableInArea(area, fit))
+        //        {
+        //            selected.Add(items[i]);
+        //        }
+        //    }
+        //    EndUpdateSelectedItems();
+        //    IsSelecting = false;
+        //}
 
         /// <summary>
         /// Unselect the <see cref="ItemContainer"/>s in the specified <paramref name="area"/>.
         /// </summary>
         /// <param name="area">The area to look for <see cref="ItemContainer"/>s.</param>
         /// <param name="fit">True to check if the <paramref name="area"/> contains the <see cref="ItemContainer"/>. <br />False to check if <paramref name="area"/> intersects the <see cref="ItemContainer"/>.</param>
-        public void UnselectArea(Rect area, bool fit = false)
-        {
-            IList items = base.SelectedItems;
+        //public void UnselectArea(Rect area, bool fit = false)
+        //{
+        //    IList items = base.SelectedItems;
 
-            IsSelecting = true;
-            BeginUpdateSelectedItems();
-            for (var i = 0; i < items.Count; i++)
-            {
-                var container = (ItemContainer)ItemContainerGenerator.ContainerFromItem(items[i]);
-                if (container.IsSelectableInArea(area, fit))
-                {
-                    items.Remove(items[i]);
-                }
-            }
-            EndUpdateSelectedItems();
-            IsSelecting = false;
-        }
+        //    IsSelecting = true;
+        //    BeginUpdateSelectedItems();
+        //    for (var i = 0; i < items.Count; i++)
+        //    {
+        //        var container = (ItemContainer)ItemContainerGenerator.ContainerFromItem(items[i]);
+        //        if (container.IsSelectableInArea(area, fit))
+        //        {
+        //            items.Remove(items[i]);
+        //        }
+        //    }
+        //    EndUpdateSelectedItems();
+        //    IsSelecting = false;
+        //}
 
         /// <summary>
         /// Unselect all <see cref="Connections"/>.
@@ -1514,61 +1514,61 @@ namespace Nodify
 
         #region Dragging
 
-        private void OnItemsDragDelta(object sender, DragDeltaEventArgs e)
-        {
-            _draggingStrategy?.Update(new Vector(e.HorizontalChange, e.VerticalChange));
-        }
+        //private void OnItemsDragDelta(object sender, DragDeltaEventArgs e)
+        //{
+        //    _draggingStrategy?.Update(new Vector(e.HorizontalChange, e.VerticalChange));
+        //}
 
-        private void OnItemsDragCompleted(object sender, DragCompletedEventArgs e)
-        {
-            if (e.Canceled && ItemContainer.AllowDraggingCancellation)
-            {
-                _draggingStrategy?.Abort();
-            }
-            else
-            {
-                IsBulkUpdatingItems = true;
+        //private void OnItemsDragCompleted(object sender, DragCompletedEventArgs e)
+        //{
+        //    if (e.Canceled && ItemContainer.AllowDraggingCancellation)
+        //    {
+        //        _draggingStrategy?.Abort();
+        //    }
+        //    else
+        //    {
+        //        IsBulkUpdatingItems = true;
 
-                _draggingStrategy?.End();
+        //        _draggingStrategy?.End();
 
-                IsBulkUpdatingItems = false;
+        //        IsBulkUpdatingItems = false;
 
-                // Draw the containers at the new position.
-                ItemsHost.InvalidateArrange();
-            }
+        //        // Draw the containers at the new position.
+        //        ItemsHost.InvalidateArrange();
+        //    }
 
-            if (ItemsDragCompletedCommand?.CanExecute(DataContext) ?? false)
-            {
-                ItemsDragCompletedCommand.Execute(DataContext);
-            }
-        }
+        //    if (ItemsDragCompletedCommand?.CanExecute(DataContext) ?? false)
+        //    {
+        //        ItemsDragCompletedCommand.Execute(DataContext);
+        //    }
+        //}
 
-        private void OnItemsDragStarted(object sender, DragStartedEventArgs e)
-        {
-            IList selectedItems = base.SelectedItems;
+        //private void OnItemsDragStarted(object sender, DragStartedEventArgs e)
+        //{
+        //    IList selectedItems = base.SelectedItems;
 
-            _draggingStrategy = CreateDraggingStrategy(SelectedContainers);
+        //    _draggingStrategy = CreateDraggingStrategy(SelectedContainers);
 
-            if (selectedItems.Count > 0)
-            {
-                if (ItemsDragStartedCommand?.CanExecute(DataContext) ?? false)
-                {
-                    ItemsDragStartedCommand.Execute(DataContext);
-                }
+        //    if (selectedItems.Count > 0)
+        //    {
+        //        if (ItemsDragStartedCommand?.CanExecute(DataContext) ?? false)
+        //        {
+        //            ItemsDragStartedCommand.Execute(DataContext);
+        //        }
 
-                e.Handled = true;
-            }
-        }
+        //        e.Handled = true;
+        //    }
+        //}
 
-        internal IDraggingStrategy CreateDraggingStrategy(IEnumerable<ItemContainer> containers)
-        {
-            if (EnableDraggingContainersOptimizations)
-            {
-                return new DraggingOptimized(containers, GridCellSize);
-            }
+        //internal IDraggingStrategy CreateDraggingStrategy(IEnumerable<ItemContainer> containers)
+        //{
+        //    if (EnableDraggingContainersOptimizations)
+        //    {
+        //        return new DraggingOptimized(containers, GridCellSize);
+        //    }
 
-            return new DraggingSimple(containers, GridCellSize);
-        }
+        //    return new DraggingSimple(containers, GridCellSize);
+        //}
 
         #endregion
 
@@ -1598,33 +1598,33 @@ namespace Nodify
         /// <summary>
         /// Ends the cutting operation at the specified location.
         /// </summary>
-        protected internal void EndCutting(Point location)
-        {
-            CuttingLineEnd = location;
+        //protected internal void EndCutting(Point location)
+        //{
+        //    CuttingLineEnd = location;
 
-            var lineGeometry = new LineGeometry(CuttingLineStart, CuttingLineEnd);
-            var connections = ConnectionsHost.GetIntersectingElements(lineGeometry, CuttingConnectionTypes);
+        //    var lineGeometry = new LineGeometry(CuttingLineStart, CuttingLineEnd);
+        //    var connections = ConnectionsHost.GetIntersectingElements(lineGeometry, CuttingConnectionTypes);
 
-            if (RemoveConnectionCommand != null)
-            {
-                foreach (var connection in connections)
-                {
-                    OnRemoveConnection(connection.DataContext);
-                }
-            }
-            else
-            {
-                foreach (var connection in connections)
-                {
-                    if (connection is BaseConnection bc)
-                    {
-                        bc.OnDisconnect();
-                    }
-                }
-            }
+        //    if (RemoveConnectionCommand != null)
+        //    {
+        //        foreach (var connection in connections)
+        //        {
+        //            OnRemoveConnection(connection.DataContext);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        foreach (var connection in connections)
+        //        {
+        //            if (connection is BaseConnection bc)
+        //            {
+        //                bc.OnDisconnect();
+        //            }
+        //        }
+        //    }
 
-            IsCutting = false;
-        }
+        //    IsCutting = false;
+        //}
 
         #endregion
 

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using static Nodify.SelectionHelper;
+//using static Nodify.SelectionHelper;
 
 namespace Nodify
 {
@@ -31,43 +31,43 @@ namespace Nodify
         /// <inheritdoc />
         public override void HandleMouseDown(MouseButtonEventArgs e)
         {
-            EditorGestures.NodifyEditorGestures gestures = EditorGestures.Mappings.Editor;
-            if (gestures.Cutting.Matches(e.Source, e))
-            {
-                PushState(new EditorCuttingState(Editor));
-            }
-            else if (gestures.PushItems.Matches(e.Source, e))
-            {
-                PushState(new EditorPushingItemsState(Editor));
-            }
-            else if (gestures.Selection.Select.Matches(e.Source, e))
-            {
-                SelectionType selectionType = GetSelectionType(e);
-                var selecting = new EditorSelectingState(Editor, selectionType);
-                PushState(selecting);
-            }
-            else if (!Editor.DisablePanning && gestures.Pan.Matches(e.Source, e))
-            {
-                PushState(new EditorPanningState(Editor));
-            }
+            //EditorGestures.NodifyEditorGestures gestures = EditorGestures.Mappings.Editor;
+            //if (gestures.Cutting.Matches(e.Source, e))
+            //{
+            //    //PushState(new EditorCuttingState(Editor));
+            //}
+            //else if (gestures.PushItems.Matches(e.Source, e))
+            //{
+            //    PushState(new EditorPushingItemsState(Editor));
+            //}
+            //else if (gestures.Selection.Select.Matches(e.Source, e))
+            //{
+            //    SelectionType selectionType = GetSelectionType(e);
+            //    var selecting = new EditorSelectingState(Editor, selectionType);
+            //    PushState(selecting);
+            //}
+            //else if (!Editor.DisablePanning && gestures.Pan.Matches(e.Source, e))
+            //{
+            //    PushState(new EditorPanningState(Editor));
+            //}
         }
 
         public override void HandleMouseWheel(MouseWheelEventArgs e)
         {
-            EditorGestures.NodifyEditorGestures gestures = EditorGestures.Mappings.Editor;
-            if (gestures.PanWithMouseWheel)
-            {
-                if (Keyboard.Modifiers == gestures.PanHorizontalModifierKey)
-                {
-                    Editor.ViewportLocation = new Point(Editor.ViewportLocation.X - e.Delta / Editor.ViewportZoom, Editor.ViewportLocation.Y);
-                    e.Handled = true;
-                }
-                else if (Keyboard.Modifiers == gestures.PanVerticalModifierKey)
-                {
-                    Editor.ViewportLocation = new Point(Editor.ViewportLocation.X, Editor.ViewportLocation.Y - e.Delta / Editor.ViewportZoom);
-                    e.Handled = true;
-                }
-            }
+            //EditorGestures.NodifyEditorGestures gestures = EditorGestures.Mappings.Editor;
+            //if (gestures.PanWithMouseWheel)
+            //{
+            //    if (Keyboard.Modifiers == gestures.PanHorizontalModifierKey)
+            //    {
+            //        Editor.ViewportLocation = new Point(Editor.ViewportLocation.X - e.Delta / Editor.ViewportZoom, Editor.ViewportLocation.Y);
+            //        e.Handled = true;
+            //    }
+            //    else if (Keyboard.Modifiers == gestures.PanVerticalModifierKey)
+            //    {
+            //        Editor.ViewportLocation = new Point(Editor.ViewportLocation.X, Editor.ViewportLocation.Y - e.Delta / Editor.ViewportZoom);
+            //        e.Handled = true;
+            //    }
+            //}
         }
     }
 }
