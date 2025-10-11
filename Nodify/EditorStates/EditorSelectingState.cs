@@ -52,7 +52,7 @@ namespace Nodify
         {
             if (!Editor.DisablePanning && EditorGestures.Mappings.Editor.Pan.Matches(e.Source, e))
             {
-                PushState(new EditorPanningState(Editor));
+                //PushState(new EditorPanningState(Editor));
             }
         }
 

@@ -22,7 +22,6 @@ namespace Nodify
     [StyleTypedProperty(Property = nameof(ItemContainerStyle), StyleTargetType = typeof(ItemContainer))]
     [StyleTypedProperty(Property = nameof(DecoratorContainerStyle), StyleTargetType = typeof(DecoratorContainer))]
     [StyleTypedProperty(Property = nameof(SelectionRectangleStyle), StyleTargetType = typeof(Rectangle))]
-    [StyleTypedProperty(Property = nameof(CuttingLineStyle), StyleTargetType = typeof(CuttingLine))]
     [ContentProperty(nameof(Decorators))]
     [DefaultProperty(nameof(Decorators))]
     public partial class NodifyEditor : MultiSelector
@@ -48,7 +47,6 @@ namespace Nodify
         private static void OnItemsExtentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var editor = (NodifyEditor)d;
-            editor.UpdateScrollbars();
         }
 
         private static void OnViewportLocationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -135,7 +133,6 @@ namespace Nodify
         /// </summary>
         protected void OnViewportUpdated()
         {
-            UpdateScrollbars();
             RaiseEvent(new RoutedEventArgs(ViewportUpdatedEvent, this));
         }
 
@@ -872,12 +869,6 @@ namespace Nodify
         /// </summary>
         public NodifyEditor()
         {
-            AddHandler(Connector.DisconnectEvent, new ConnectorEventHandler(OnConnectorDisconnected));
-            AddHandler(Connector.PendingConnectionStartedEvent, new PendingConnectionEventHandler(OnConnectionStarted));
-            AddHandler(Connector.PendingConnectionCompletedEvent, new PendingConnectionEventHandler(OnConnectionCompleted));
-
-            AddHandler(BaseConnection.DisconnectEvent, new ConnectionEventHandler(OnRemoveConnection));
-
             AddHandler(ItemContainer.DragStartedEvent, new DragStartedEventHandler(OnItemsDragStarted));
             AddHandler(ItemContainer.DragCompletedEvent, new DragCompletedEventHandler(OnItemsDragCompleted));
             AddHandler(ItemContainer.DragDeltaEvent, new DragDeltaEventHandler(OnItemsDragDelta));
@@ -1079,56 +1070,6 @@ namespace Nodify
             {
                 _autoPanningTimer.Interval = TimeSpan.FromMilliseconds(AutoPanningTickRate);
                 _autoPanningTimer.Start();
-            }
-        }
-
-        #endregion
-
-        #region Connector handling
-
-        private void OnConnectorDisconnected(object sender, ConnectorEventArgs e)
-        {
-            if (!e.Handled && (DisconnectConnectorCommand?.CanExecute(e.Connector) ?? false))
-            {
-                DisconnectConnectorCommand.Execute(e.Connector);
-                e.Handled = true;
-            }
-        }
-
-        private void OnConnectionStarted(object sender, PendingConnectionEventArgs e)
-        {
-            if (!e.Canceled && ConnectionStartedCommand != null)
-            {
-                e.Canceled = !ConnectionStartedCommand.CanExecute(e.SourceConnector);
-                if (!e.Canceled)
-                {
-                    ConnectionStartedCommand.Execute(e.SourceConnector);
-                }
-            }
-        }
-
-        private void OnConnectionCompleted(object sender, PendingConnectionEventArgs e)
-        {
-            if (!e.Canceled)
-            {
-                (object SourceConnector, object? TargetConnector) result = (e.SourceConnector, e.TargetConnector);
-                if (ConnectionCompletedCommand?.CanExecute(result) ?? false)
-                {
-                    ConnectionCompletedCommand.Execute(result);
-                }
-            }
-        }
-
-        private void OnRemoveConnection(object sender, ConnectionEventArgs e)
-        {
-            OnRemoveConnection(e.Connection);
-        }
-
-        protected void OnRemoveConnection(object? dataContext)
-        {
-            if (RemoveConnectionCommand?.CanExecute(dataContext) ?? false)
-            {
-                RemoveConnectionCommand.Execute(dataContext);
             }
         }
 
@@ -1546,62 +1487,6 @@ namespace Nodify
 
                 e.Handled = true;
             }
-        }
-
-        #endregion
-
-        #region Cutting
-
-        /// <summary>
-        /// Starts the cutting operation at the specified location. Call <see cref="EndCutting"/> to finish cutting.
-        /// </summary>
-        protected internal void StartCutting(Point location)
-        {
-            CuttingLineStart = location;
-            CuttingLineEnd = location;
-            IsCutting = true;
-        }
-
-        /// <summary>
-        /// Cancels the cutting operation.
-        /// </summary>
-        protected internal void CancelCutting()
-        {
-            if (IsCutting)
-            {
-                IsCutting = false;
-            }
-        }
-
-        /// <summary>
-        /// Ends the cutting operation at the specified location.
-        /// </summary>
-        protected internal void EndCutting(Point location)
-        {
-            CuttingLineEnd = location;
-
-            var lineGeometry = new LineGeometry(CuttingLineStart, CuttingLineEnd);
-            var connections = ConnectionsHost.GetIntersectingElements(lineGeometry, CuttingConnectionTypes);
-
-            if (RemoveConnectionCommand != null)
-            {
-                foreach (var connection in connections)
-                {
-                    OnRemoveConnection(connection.DataContext);
-                }
-            }
-            else
-            {
-                foreach (var connection in connections)
-                {
-                    if (connection is BaseConnection bc)
-                    {
-                        bc.OnDisconnect();
-                    }
-                }
-            }
-
-            IsCutting = false;
         }
 
         #endregion

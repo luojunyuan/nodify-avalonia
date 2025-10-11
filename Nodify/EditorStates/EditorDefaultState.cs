@@ -33,7 +33,7 @@ namespace Nodify
             EditorGestures.NodifyEditorGestures gestures = EditorGestures.Mappings.Editor;
             if (gestures.Cutting.Matches(e.Source, e))
             {
-                PushState(new EditorCuttingState(Editor));
+                //PushState(new EditorCuttingState(Editor));
             }
             else if (gestures.Selection.Select.Matches(e.Source, e))
             {
@@ -43,7 +43,7 @@ namespace Nodify
             }
             else if (!Editor.DisablePanning && gestures.Pan.Matches(e.Source, e))
             {
-                PushState(new EditorPanningState(Editor));
+                //PushState(new EditorPanningState(Editor));
             }
         }
     }
